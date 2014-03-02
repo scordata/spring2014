@@ -1,0 +1,27 @@
+Adam Najman
+Cryptography
+Problem Set 1
+Question 2b
+
+Here we are tasked with redesigning the Diffie-Hellman
+protocol so that if does not require a prime modulus. This
+one could be really bad if we don't chose the right generator
+as well.
+
+Consider choosing numbers modulo 15. 15 isn't prime, but we 
+have lot's of options less than 15 to choose as generators.
+This turns out to be pretty similar to our last problem.
+We will have a search space less than optimal, but as long
+as we don't choose g to be out modulus - 1 or to share a 
+common factor with our modulus, we should generally be OK
+if our modulus is sufficiently large.
+
+One problem that occurs here is speed. If we aren't choosing
+a large prime, we are choosing a large composite. And to make 
+sure that our generator isn't a factor of this number, we have to
+factor it. This presents a problem - we are now using computational
+power to make sure our encryption is secure, instead of choosing a 
+precomputed prime, or some prime that is large and easily generated.
+
+It's also a very bad idea to pick 1 or 2 as our modulus. The 
+resulting set is very small.

@@ -1,0 +1,83 @@
+Adam Najman
+Cryptography
+Problem set 1
+Question 5
+
+
+For this problem, I first ran a frequency analysis 
+of the cyphertext. The outcome looked like this:
+
+{'m': 34, 'q': 29, 'z': 29, 'x': 28, 'c': 27, 'e': 27, 
+ 's': 27, 'u': 27, 'j': 26, 'n': 26, 'p': 26, 'r': 25, 
+ 'b': 23, 'l': 23, 't': 22, 'f': 21, 'i': 19, 'o': 19, 
+ 'd': 17, 'v': 16, 'a': 15, 'g': 15, 'h': 15, 'w': 15, 
+ 'y': 14, 'k': 12})
+
+ And here are the frequencies:
+[['m', 5.892547660311958], ['q', 5.025996533795494], 
+ ['z', 5.025996533795494], ['x', 4.852686308492202], 
+ ['c', 4.679376083188909], ['e', 4.679376083188909], 
+ ['s', 4.679376083188909], ['u', 4.679376083188909], 
+ ['j', 4.506065857885615], ['n', 4.506065857885615], 
+ ....................... , ['k', 2.079722703639515]]
+ ]
+
+As you can see, this does NOT represent a monoalphabetic
+substitution cypher. If it did, we would see a steeper
+curve from greatest to lowest. For example, according
+to Robert Lewlands' Cryptological Mathematics, the 
+letter 'E' should have a relative frequency of 12.7%,
+and 'A' should have a relative frequency of 8.2%.
+
+Since the frequency of all the letters start from 
+~5.8% and move downwards to ~2.08%, this suggests
+a polyalphabetic cypher.
+
+I proceeded to employ a Vigener cypher breaking technique.
+First, I needed to find a key length. This consisted of
+breaking the cyphertext into various substrings by taking
+the ith + x letter of the cypher text, where x = an offset.
+For example, if I wanted 7 substrings, the first
+substring would consist of the 0th, 7th, 15th, and so on
+letters, while the seventh substring would consist of the
+8th, 16th, 24th, and so on.
+
+I then had to make an educated guess on the frequency matching.
+For seven subsets, the distribution of the first substring
+looked like this:
+
+[['q', 9.63855421686747],  ['z', 8.433734939759036], 
+ ['j', 7.228915662650603], ['c', 6.024096385542169], 
+ ['f', 6.024096385542169], ['m', 6.024096385542169], 
+ ['l', 6.024096385542169], ['s', 6.024096385542169], 
+ ['r', 4.819277108433735], ['e', 3.6144578313253013], 
+ ......................., ['i', 1.2048192771084338]]
+
+ Pretty good, but I think we can do better.
+ Here's 6 substrings, which led me to find the key:
+
+[['z', 11.34020618556701], ['m', 10.309278350515465],
+ ['f', 8.247422680412372], ['q', 8.247422680412372], 
+ ['u', 8.247422680412372], ['a', 6.185567010309279], 
+ ['e', 6.185567010309279], ['y', 5.154639175257732], 
+ ['o', 4.123711340206186], ['n', 4.123711340206186], 
+ ........................, ['v', 1.0309278350515465]]
+
+ Starting to look like English! From here, I suspected 
+ that each of the most common letter of each substring
+ matched to the letter 'E'. This provided some pitfalls
+ for the first 3 substrings, but after rotating them with
+ the seven most common letters in the English language
+ (e,t,a,o,i,n,s), I was able to deduce the key:
+
+        MZEJBL
+
+ Python has as a member of it's string class a method
+ to translate a string into another one if you give it 
+ some rules. Since Vigener is 26 shift cyphers, I only
+ had to define the shift cyphers pertaining to each letter
+ in the key. From there I was able to reassemble the 
+ substrings into the plaintext - Act I, Scene I from
+ 'Richard III'
+
+

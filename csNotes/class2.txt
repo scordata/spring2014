@@ -1,0 +1,13 @@
+Ackermann:
+
+	A(m,n) = A(m, n-1)
+
+Non-primitive recursion
+
+
+Master theorem of recurrence relations:
+CLRS(4.5)
+
+T[n] = 2T(n/2) + O(n)
+
+

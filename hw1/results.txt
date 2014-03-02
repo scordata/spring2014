@@ -1,0 +1,31 @@
+Adam Najman
+HW1
+results.txt
+LAST EDIT: 2/4/12
+
+1. I spent approx 15-20 hours between working
+    on the problems, learning python, and
+    researching algorithms
+
+2. These problems ranged from simple to 
+    moderately difficult. One major pitfall
+    was having to learn much of python before
+    attempting these. For example, learning about
+    generators and iterators made printing sorted
+    lists easier - however finding that technique
+    took some time to stumble upon.
+
+3. I did not work with other classmates, however
+   I did some research about python from the docs
+   and some python blogs.
+
+4. I'd say I've grasped about 75% of the material
+   so far.
+
+5. It's a shame that we've had to move so fast
+   to cover both the basics of python and these
+   algorithmic techniques. It would have been nice
+   to have a brief review of the data structures
+   and algorithms we plan on using. For some of us,
+   it has been a year or more since our data 
+   structures class.

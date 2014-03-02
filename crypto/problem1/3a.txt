@@ -1,0 +1,40 @@
+Adam Najman
+Cryptography 
+Problem set 1
+Question 3a
+
+Find all n that satisfy phi(n) = 110
+
+To begin our examination, let's review what we know about
+Euler's totient function:
+
+  1. Assuming n is prime, phi(n) = n-1
+  2. If n > 2, phi(n) is even.
+  3. 0 > phi(n) > n
+  4. phi(n*m) = phi(n) * phi(m)
+
+This means that we should begin our search starting with
+the first n to yeild phi(n) = 110, and go up from there.
+
+If n = 121, then phi(n) = 110. Our first mark. We should
+exclude all primes higher than this number, as by 
+definition 1, phi(n) would not equal 110, but rather n-1.
+Since 111 is not prime, that leaves us with the composite 
+numbers greater than 121. 
+
+Experimentation shows us that the next number is 242. Can
+we find more? How many more are there? Is there a closed 
+form solution to this?
+
+We also know that if we raise a prime p to some power, a,
+so we have p^a, we can say that: 
+
+  phi(p^a) = p^a - p^(a-1)
+
+This is because p^a has p^(a-1) many common factors with it.
+So, by subtracting one from the other, we are left with all
+the non-common factors.
+
+
+
+

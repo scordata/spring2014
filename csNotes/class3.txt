@@ -1,0 +1,18 @@
+2/3/14
+
+Diameter:
+  LP(T) = max {  LP (Tl)
+                 LP (Tr)
+                 depth(Tl) + depth(Tr) + 2
+
+          T
+        /   \
+      L       R
+
+Ackermann:
+    
+Tree rotations:
+  
+    After node deletion - 
+    new root is leftmost child of right subtree
+    or rightmost child of left subtree

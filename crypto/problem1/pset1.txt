@@ -1,0 +1,856 @@
+Adam Najman
+Cryptography
+Problem Set 1
+
+Question 1a
+
+Assuming I'm able to write out the contents of the 
+transmission I've intercepted at a text file, and
+assuming it is encrypted, I'd undertake the following
+steps to determine if it was encrypted using a 
+monoalphabetic cypher:
+  
+  1. Count the total number of characters in the
+     text file.
+  2. Build an index of how many of each type of
+     character was in the text file. For example,
+     count 15 'a's, 22 'b's, 3 'e's, etc.
+  3. Determine the relative frequency of each 
+     character. This can be done by dividing the 
+     occurrence of a character over the number of 
+     total occurrences of all characters and multiplying
+     the result by 100.
+  4. Compare the relative frequencies of this intercepted
+     transmission to the known "signatures" of written
+     languages, and look for a match. For example, 
+     English employs 26 letters in it's alphabet - if
+     the intercepted text has less than or equal to 26
+     characters at a similar relative frequency, there
+     is a good chance that we have a match. Icelandic,
+     for example, has 32 letters, and a different 
+     "signature", so we'd have to look for different,
+     but similar clues.
+
+This technique has not produced promising results for the
+cypher text in problem 5. Perhaps it is encoded using the
+Vigenere cypher.
+
+Question 1B
+
+Now for the undertaking for the harder case, in where we
+no nothing about the underlying data type. The search space
+for even unencrypted data is enormous. We have to consider 
+not only known file types and their internal signatures,
+but binary files for all possible architectures and possibly
+a proprietary file type known only to Alice and Bob.
+
+If we had a super computer, and some database containing
+internal file type signatures, it is possible to run our
+intercepted data though a pattern matching algorithm and
+develop some kind of confidence of whether or not it is
+of a known file type. If we had header information, this could
+greatly reduce our possible file types, but as mentioned in class, we
+have intercepted the file transmission sometime after it began.
+There are open source projects being developed right now to solve 
+this kind of undertaking. This doesn't help us with encryption, 
+however.
+
+If we examine the file on a binary level, that is to say, 
+zero's and one's, we can come to some conclusions. The odds
+that Alice would send Bob a several megabyte file containing
+only zero's or only one's seems unlikely. Likewise for a file
+containing alternating zero's and ones. But that's only the
+case if we assume Alice wasn't sending Bob some very large number.
+
+At this stage of inspection, we also have no idea if the file
+has been corrupted, or compressed, before or during transmission.
+So, assuming there has been no corruption, and the file has not been
+compressed, the only thing we will have to go on is patterns in the
+file itself.
+
+If the file has been encrypted using a block cypher, we might notice
+patterns ever 64, or 128, or 256 bits, for example. These patterns
+might be a side effect of the type of encryption Alice and Bob were
+using, and could help shed some light on its status. If it was 
+encrypted using a stream cypher, than it is going to look random.
+
+If all else fails, I maintain that finding Alice and/or Bob and
+coercing them into giving you more information on the intercepted
+file is a valid plan - it might not be efficient or implementable
+if you lack great wealth, political influence, or the proper 
+connections, but given ones social status, and the nature of the
+intercepted message (state or military secrets) this could be a 
+viable option.
+Adam Najman
+Cryptography
+Problem Set 1
+Question 2a
+
+
+Typically the Diffie-Hellman key exchange expects g
+to be a primitive root of p. That allows for all values
+from 1 to p-1. The question, however, explicitly asks
+us to redesign the protocol baring the use of a primitive root.
+This presents an interesting challenge.
+
+First of all, any g that is not a primitive root of p will
+yield a smaller set of numbers than the primitive root would.
+This means we are not going to have a monotonically increasing
+series from 1 to p-1, but rather some holes, and possibly some
+repeating numbers. For example, if we choose p to be 11, and
+g to be 3, we get the set of {1, 3, 4, 5, 9}. This leaves out
+{2, 6, 7, 8, 10}. Notice the union of these sets produces all
+values from 1 to p-1, as if we had chosen 2 as our generator.
+
+This presents a huge boon to attackers. Since the order of a 
+non primitive root is smaller than if we had used a primitive
+root they have less guesses to calculate. 
+
+The first countermeasure that comes to mind is to make p very 
+large. This will help ensure that there is much more ground to 
+cover by a potential hacker. In fact, if p is sufficiently large,
+it is possible that by the time the invader obtains the information
+if will be of no use to them. As long as it isn't obvious that
+g is not a primitive root of p, the attacker will be non the wiser.
+For example, it's a bad idea to choose p-1 as your generator for
+this reason. 
+
+In some cases, choosing a non-primitive root may be a good idea.
+If the attacker has an idea of what p might be, than she may get 
+be able to develop a divide and conquer algorithm based on the
+bounds of the primitive root. If she lacks access to the prime
+number and only has the generator, it might be close to impossible
+to utilize parallelization in this case. This is, of course as long
+as we do not select 0 or 1 to be our generator
+
+
+Adam Najman
+Cryptography
+Problem Set 1
+Question 2b
+
+Here we are tasked with redesigning the Diffie-Hellman
+protocol so that if does not require a prime modulus. This
+one could be really bad if we don't chose the right generator
+as well.
+
+Consider choosing numbers modulo 15. 15 isn't prime, but we 
+have lot's of options less than 15 to choose as generators.
+This turns out to be pretty similar to our last problem.
+We will have a search space less than optimal, but as long
+as we don't choose g to be out modulus - 1 or to share a 
+common factor with our modulus, we should generally be OK
+if our modulus is sufficiently large.
+
+One problem that occurs here is speed. If we aren't choosing
+a large prime, we are choosing a large composite. And to make 
+sure that our generator isn't a factor of this number, we have to
+factor it. This presents a problem - we are now using computational
+power to make sure our encryption is secure, instead of choosing a 
+precomputed prime, or some prime that is large and easily generated.
+
+It's also a very bad idea to pick 1 or 2 as our modulus. The 
+resulting set is very small.
+Adam Najman
+Cryptography 
+Problem set 1
+Question 3a
+
+Find all n that satisfy phi(n) = 110
+
+To begin our examination, let's review what we know about
+Euler's totient function:
+
+  1. Assuming n is prime, phi(n) = n-1
+  2. If n > 2, phi(n) is even.
+  3. 0 > phi(n) > n
+  4. phi(n*m) = phi(n) * phi(m)
+
+This means that we should begin our search starting with
+the first n to yeild phi(n) = 110, and go up from there.
+
+If n = 121, then phi(n) = 110. Our first mark. We should
+exclude all primes higher than this number, as by 
+definition 1, phi(n) would not equal 110, but rather n-1.
+Since 111 is not prime, that leaves us with the composite 
+numbers greater than 121. 
+
+Experimentation shows us that the next number is 242. Can
+we find more? How many more are there? Is there a closed 
+form solution to this?
+
+We also know that if we raise a prime p to some power, a,
+so we have p^a, we can say that: 
+
+  phi(p^a) = p^a - p^(a-1)
+
+This is because p^a has p^(a-1) many common factors with it.
+So, by subtracting one from the other, we are left with all
+the non-common factors.
+
+
+
+
+"""
+Adam Najman
+Cryptography
+Problem set 1
+Question 4a
+
+This program checks to see
+if 5 is a primitive root
+mod 65537
+"""
+
+# A flag variable to show
+# if it a primitive root.
+# We assume it is.
+flag = True
+
+# A dictionary to store values
+# of 5^x mod 65537
+cache = {}
+
+# This for loop stores all
+# the values of 
+# 5^x mod 65537
+for i in range(65537):
+  cache[i] = pow(5,i,65537)
+  # The pow() function takes a base
+  # an exponent, and its modulus.
+  # It returns the base to the 
+  # power, reduced by the modulus
+
+# Here we check that we have a permutation
+# of phi(65537). We know that the answer is
+# 65536, as 65537 is prime, and the answer 
+# to phi(prime) is prime - 1
+# If there is a number missing then the flag
+# will be set to false. 
+for i in range(65537):
+  if i not in cache:
+    flag = False
+    print cache[i]
+
+if flag:
+  print "5 is a primitive root"
+else:
+  print "5 is NOT a primitive root."
+
+"""
+OUTPUT:
+5 is a primitive root
+"""
+"""
+Adam Najman
+Cryptography
+Problem Set 1
+Question 4b
+
+A brute force check to determine
+the solution to:
+5^x = 21 (mod 65537)
+"""
+
+
+# A dictionary to linearize
+# our calculations
+mem = {}
+mem[0] = 1
+
+# The for loop iterates from
+# 1 until 65536. If a match is
+# found, it reports it
+
+for i in range(1,65537):
+  mem[i] = 5 * mem[i-1]
+  if 21 == mem[i] % 65537:
+    print "FOUND IT",
+    print "x is %i" % i
+
+# Print the length to prove
+# we've iterated over all the 
+# options
+print "len of mem is: ",
+print len(mem)
+
+# This checks for errors in hash
+# storage. Verifies our calculation
+for i in range(65537):
+  if i not in mem:
+    print i,
+    print " not found!"
+
+print "end"
+
+"""
+OUTPUT:
+FOUND IT x is 18000
+len of mem is:  65537
+end
+"""
+"""
+Adam Najman
+Cryptography
+Problem set 1
+Question 4c
+
+Solving:
+2^x = 92327518017225 (mod 247457076132467)
+Tried this by brute force, and I don't think
+I'm going to live long enough to find the answer.
+
+See below for Shank's baby-step giant-step
+"""
+
+from math import sqrt
+
+b = 92327518017225
+# b is our beta
+n = 2474570776132467
+# n is our modulus
+
+m = int(sqrt(n))
+# m is the floor of the square root
+# of n. We only have to calculate that
+# high
+
+giant = []
+baby = []
+# baby and giant are the two containers
+# we are going to use to store the values
+
+for x in range(0,m):
+    giant.append( b * ( 2 ^ x ) % n )
+print "giant is done"
+# this is calculating the (mod n) of:
+# beta * ( 2 XOR x )
+# where x is going from 0 to m-1
+# XOR is much faster here, as we can
+# cheat a bit by using a form of 
+# fast exponentiation
+
+for y in range(1, m+1):
+    baby.append( 2 ^ ( y * m ) % n )
+print "baby is done"
+# here we are storing (mod n):
+# 2 XOR ( y * m )
+# where y is going from 1 to m+1
+# Again, we can cut corners with 
+# XOR. 
+
+print "The maximum from the intersection is: ", 
+foo = max(set(giant).intersection(baby))
+print foo
+# We are going to need to perform operations
+# on from the maximum of the intersection
+# of the baby set and the giant set.
+# Thus, foo = that number.
+
+
+first = giant.index(foo)
+second =  baby.index(foo)
+# Here, we find the indexes of foo from their
+# respective lists.
+
+print "first is %i" % first
+print "second is %i" % second
+
+# we know that:
+# x = second * m + first
+# thus:
+print "x equals: ", ( ( second + 1 ) * m - first ) % n
+
+"""
+OUTPUT:
+giant is done
+baby is done
+The maximum from the intersection is:  885298502597643
+first is 48003120
+second is 17796712
+x equals 885298454594521
+"""
+Adam Najman
+Cryptography
+Problem set 1
+Question 5
+
+
+For this problem, I first ran a frequency analysis 
+of the cyphertext. The outcome looked like this:
+
+{'m': 34, 'q': 29, 'z': 29, 'x': 28, 'c': 27, 'e': 27, 
+ 's': 27, 'u': 27, 'j': 26, 'n': 26, 'p': 26, 'r': 25, 
+ 'b': 23, 'l': 23, 't': 22, 'f': 21, 'i': 19, 'o': 19, 
+ 'd': 17, 'v': 16, 'a': 15, 'g': 15, 'h': 15, 'w': 15, 
+ 'y': 14, 'k': 12})
+
+ And here are the frequencies:
+[['m', 5.892547660311958], ['q', 5.025996533795494], 
+ ['z', 5.025996533795494], ['x', 4.852686308492202], 
+ ['c', 4.679376083188909], ['e', 4.679376083188909], 
+ ['s', 4.679376083188909], ['u', 4.679376083188909], 
+ ['j', 4.506065857885615], ['n', 4.506065857885615], 
+ ....................... , ['k', 2.079722703639515]]
+ ]
+
+As you can see, this does NOT represent a monoalphabetic
+substitution cypher. If it did, we would see a steeper
+curve from greatest to lowest. For example, according
+to Robert Lewlands' Cryptological Mathematics, the 
+letter 'E' should have a relative frequency of 12.7%,
+and 'A' should have a relative frequency of 8.2%.
+
+Since the frequency of all the letters start from 
+~5.8% and move downwards to ~2.08%, this suggests
+a polyalphabetic cypher.
+
+I proceeded to employ a Vigener cypher breaking technique.
+First, I needed to find a key length. This consisted of
+breaking the cyphertext into various substrings by taking
+the ith + x letter of the cypher text, where x = an offset.
+For example, if I wanted 7 substrings, the first
+substring would consist of the 0th, 7th, 15th, and so on
+letters, while the seventh substring would consist of the
+8th, 16th, 24th, and so on.
+
+I then had to make an educated guess on the frequency matching.
+For seven subsets, the distribution of the first substring
+looked like this:
+
+[['q', 9.63855421686747],  ['z', 8.433734939759036], 
+ ['j', 7.228915662650603], ['c', 6.024096385542169], 
+ ['f', 6.024096385542169], ['m', 6.024096385542169], 
+ ['l', 6.024096385542169], ['s', 6.024096385542169], 
+ ['r', 4.819277108433735], ['e', 3.6144578313253013], 
+ ......................., ['i', 1.2048192771084338]]
+
+ Pretty good, but I think we can do better.
+ Here's 6 substrings, which led me to find the key:
+
+[['z', 11.34020618556701], ['m', 10.309278350515465],
+ ['f', 8.247422680412372], ['q', 8.247422680412372], 
+ ['u', 8.247422680412372], ['a', 6.185567010309279], 
+ ['e', 6.185567010309279], ['y', 5.154639175257732], 
+ ['o', 4.123711340206186], ['n', 4.123711340206186], 
+ ........................, ['v', 1.0309278350515465]]
+
+ Starting to look like English! From here, I suspected 
+ that each of the most common letter of each substring
+ matched to the letter 'E'. This provided some pitfalls
+ for the first 3 substrings, but after rotating them with
+ the seven most common letters in the English language
+ (e,t,a,o,i,n,s), I was able to deduce the key:
+
+        MZEJBL
+
+ Python has as a member of it's string class a method
+ to translate a string into another one if you give it 
+ some rules. Since Vigener is 26 shift cyphers, I only
+ had to define the shift cyphers pertaining to each letter
+ in the key. From there I was able to reassemble the 
+ substrings into the plaintext - Act I, Scene I from
+ 'Richard III'
+
+
+"""
+Adam Najman
+Cyrptography
+Problem Set 1
+Quesiton 5
+"""
+from collections import Counter 
+from operator import itemgetter
+from string import maketrans
+
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+# After frequency analysis, it shows the key is:
+# MZEJBL
+# We will use these strings to decode
+vM = 'mnopqrstuvwxyzabcdefghijkl'
+vZ = 'zabcdefghijklmnopqrstuvwxy'
+vE = 'efghijklmnopqrstuvwxyzabcd'
+vJ = 'jklmnopqrstuvwxyzabcdefghi'
+vB = 'bcdefghijklmnopqrstuvwxyza'
+vL = 'lmnopqrstuvwxyzabcdefghijk'
+
+t1 = maketrans(vM, alphabet)
+t2 = maketrans(vZ, alphabet)
+t3 = maketrans(vE, alphabet)
+t4 = maketrans(vJ, alphabet)
+t5 = maketrans(vB, alphabet)
+t6 = maketrans(vL, alphabet)
+# Our cypher text
+foo = 'sqmvwtezknehmqljusenscippgmblcumouforqswulzcrxxtzrxnboaeqxvyfhrpcldaimteqdhbuzrqmpie\
+fgibpfxrsogpmqjdmlpuiatldhibipoztnsdzhqkmjumeubokrgqbxndvcpetdpjtnuumxvdbkijttzfsobwgs\
+ikveusljulymsctsmoimgzdrtxseuuicstojwwpcyzhnuzonyaulzzqxszgrpxpvumkpmlermcilfzqavoqkc\
+bulyoimbypvewuwauibnlvdwczearxavendjxspmvewuzzzqkmtzfrhnathxqbemlgdsemhpnezrslrtqm\
+hvyszbnvcjzzblnbeqcsogpmsyafmkcmbtpyaprorzzxdsppdjxsxqcywgtzhwqfoedrccprnvnnjfhqnjyf\
+nxqjdnqijusumkfpcxcwlbcodljmqyzhnvammhcilfrsubxqkcjoogmjjtsunrjcwqsljuoafwkbcwzxvfle\
+hljmenxxqfxigcrjyfgmbxpmjtrqtzfxrnpaetnbnqgeefyaciujrtsxxqlerefbjfgicjxq'
+
+# A function to count occurences of
+# letters in a string, then sorts by
+# result
+def stat(foo):
+  ca = Counter(foo)
+  print ca
+  avg = []
+  for x in ca:
+        avg.append([x, ca[x]/(len(foo)/100.0)])
+  	#avg.append([x, ca[x]/5.77])
+  print sorted(avg, key=itemgetter(1), reverse=True)
+
+# Show the whole string
+stat(foo)
+# Looks like it's polyalphabetic
+
+# Trial and error shows that
+# the most likley key length is
+# 6. The distribution produced
+# most closely matches English.
+# To make more sets, add:
+# kx = foo[x:len(foo):y]
+# where y = step size (number of sets)
+# and x is the set number.
+# Removing sets is the same.
+k0 = foo[0:len(foo):6]
+k1 = foo[1:len(foo):6]
+k2 = foo[2:len(foo):6]
+k3 = foo[3:len(foo):6]
+k4 = foo[4:len(foo):6]
+k5 = foo[5:len(foo):6]
+
+
+# This section is to make sure
+# I've got my math right
+# And divided up the string properly
+"""
+print k0
+print len(k0)
+print k1
+print len(k1)
+print k2
+print len(k2)
+print k3
+print len(k3)
+print k4
+print len(k4)
+print k5
+print len(k5)
+
+x = len(k0) + len(k1) + len(k2) + len(k3) + len(k4) + len(k5)
+print x
+"""
+
+# Here we see the analysis of
+# each substring
+print "k0 analisys"
+stat(k0)
+print "k1 analisys "
+stat(k1)
+print "k2 analisys "
+stat(k2)
+print "k3 analisys "
+stat(k3)
+print "k4 analisys "
+stat(k4)
+print "k5 analisys "
+stat(k5)
+
+
+# This loop decodes each part of the substring
+# and builds it back into a readable format
+# (without spaces...)
+retval = ''
+for i in range(len(k1)):
+  retval += k0.translate(t1)[i]
+  retval += k1.translate(t2)[i]
+  retval += k2.translate(t3)[i]
+  retval += k3.translate(t4)[i]
+  retval += k4.translate(t5)[i]
+  retval += k5.translate(t6)[i]
+
+retval += k0.translate(t1)[-1]
+"""  
+print k0.translate(t1)
+print k1.translate(t2)
+print k2.translate(t3)
+print k3.translate(t4)
+print k4.translate(t5)
+print k5.translate(t6)
+"""
+print retval
+
+
+"""
+After Shifting and translating:
+grimvisagedwarhathsoothedhiskrinkledfrontandnowinsteadofmountingbarbe
+dsteedstofrightthesoulsoffearfuladversarieshecapersnimblyinaladyschamber
+tothelasciviouspleasingofalutebutithatamnotshapedforsportivetricksnormad
+etocourtanamorouslookingglassithatamrudelystampedandwantlovesmajestytost
+rutbeforeawantonamblingnymphithatamcurtailedofthisfairproportioncheatedo
+ffeaturebydissemblingnaturedeformedunfinishedsentbeforemytimeintothisbre
+athingworldscarcehalfmadeupandthatsolamelyandunfashionablethatdogsbarkat
+measihaltbythemwhyiinthisweakpipingtimeofpeacehavenodelighttopassawaythe
+time
+"""
+"""
+Adam Najman
+Cyrptography
+Problem Set 1
+Quesiton 6
+
+REQUIRES PYTHON 3 FOR ICELANDIC SUPPORT
+
+This operates by building a confidence interval,
+measuring the average of the best frequencies and
+replacing it if we find a better value for all
+32 rotations. This does not assume that the Vigenere table
+has been scrambled. 
+
+"""
+from collections import Counter 
+from operator import itemgetter
+import collections
+
+alphabet = 'aábdðeéfghiíjklmnoóprstuúvxyýþæö'
+print (alphabet)
+temp = [(alphabet * 2)[x:x+32] for x in range(32)]
+table = '\n'.join(temp)
+print (table)
+
+
+
+# After frequency analysis, it shows the key is:
+# ersvkndöpafð
+# We will use these strings to decode
+v1 = 'eéfghiíjklmnoóprstuúvxyýþæöaábdð'
+v2 = 'rstuúvxyýþæöaábdðeéfghiíjklmnoóp'
+v3 = 'stuúvxyýþæöaábdðeéfghiíjklmnoópr'
+v4 = 'vxyýþæöaábdðeéfghiíjklmnoóprstuú'
+v5 = 'klmnoóprstuúvxyýþæöaábdðeéfghiíj'
+v6 = 'noóprstuúvxyýþæöaábdðeéfghiíjklm'
+v7 = 'dðeéfghiíjklmnoóprstuúvxyýþæöaáb'
+v8 = 'öaábdðeéfghiíjklmnoóprstuúvxyýþæ'
+v9 = 'prstuúvxyýþæöaábdðeéfghiíjklmnoó'
+v10= 'aábdðeéfghiíjklmnoóprstuúvxyýþæö'
+v11= 'fghiíjklmnoóprstuúvxyýþæöaábdðeé'
+v12= 'ðeéfghiíjklmnoóprstuúvxyýþæöaábd'
+
+
+t1 = str.maketrans(v1, alphabet)
+t2 = str.maketrans(v2, alphabet)
+t3 = str.maketrans(v3, alphabet)
+t4 = str.maketrans(v4, alphabet)
+t5 = str.maketrans(v5, alphabet)
+t6 = str.maketrans(v6, alphabet)
+t7 = str.maketrans(v7, alphabet)
+t8 = str.maketrans(v8, alphabet)
+t9 = str.maketrans(v9, alphabet)
+t10 = str.maketrans(v10, alphabet)
+t11 = str.maketrans(v11, alphabet)
+t12 = str.maketrans(v12, alphabet)
+
+
+
+# Our cypher text
+foo = 'hóóvskirafsípránxraatóóhrlóáæpdéuaýþmdxajröðéábiðhjéurkmýæóðætúrævsöáúáóðhöþsgeéjyönj\
+glheþdaouhxyaxeóéoóímýæsðsóýlþævlfðsúðhkhpnþeóémgffjrhxnóórskrmíýjéuúeóeæuðutdýenry\
+úötöúllæöaxárymröþxdáujxerílivexxöúoþlæyöxvýóavtelébvdsaexfmæétyksbnpkfðvóýlsképnajvlr\
+óolraújtðidgnxenrtúhshspgaruykóækiðétauaelliaabðyueýmævmvhæaéáóeeebýuaevxsrnýxpkbbþx\
+yóaóetóxvgpptyksbnpkfðbýýhhnyövhoéduddxaktapþentiöenhkyihtíæsxrýsöþnvdsðjybúínvfnúnýfi\
+vbðöþfxserívpirxbýýaehelexýburkmýæehjélðötégðxnvkgjkiæölafxáéáráafyóbgökbmeerællúvixvx\
+bgfeömiósxrýuvsþexkýævdajáýmðfvdþieðdaéxaíörsk'
+
+# A function to count occurences of
+# letters in a string, then sorts by
+# result
+def stat(foo, pnt=False):
+  ca = Counter(foo)
+  if pnt:
+    print (ca)
+  avg = []
+  for x in ca:
+        avg.append([x, ca[x]/(len(foo)/100.0)])  
+        #avg.append([x, ca[x]/5.77])
+  if pnt:
+    print (sorted(avg, key=itemgetter(1), reverse=True))
+  return sorted(avg, key=itemgetter(1), reverse=True)
+
+# Show the whole string
+stat(foo)
+# Looks like it's polyalphabetic
+
+
+# Frequencies of decoded larger text
+comp = [ ['r', 9.1], ['a', 9.1], ['i', 7.9], ['n', 7.8], ['e', 5.9], ['s', 5.1], ['g', 4.9], ['u', 4.8],
+         ['l', 4.7], ['ð', 4.7], ['t', 4.2], ['m', 3.6], ['o', 3.0], ['þ', 2.9], ['h', 2.8], ['k', 2.6], 
+         ['v', 2.5], ['f', 2.4], ['á', 1.7], ['d', 1.4], ['í', 1.2], ['j', 1.1], ['ó', 1.1], ['ú', 0.9], 
+         ['ö', 0.8], ['b', 0.8], ['æ', 0.7], ['é', 0.7], ['y', 0.7], ['p', 0.6], ['ý', 0.1], ['x', 0.0] ]
+
+print (comp)
+
+# This loops builds a confidence interval for determining the key length
+# We start at last = 10. We compute the average distance in the frequencies
+# for the first 5 values. If that value gets smaller, we have a better
+# confidence value. This happens 32 times, since that's the maximum amout
+# of rotations you'll get in this language.
+last = 10
+for i in range(33):
+  temp = foo[i:len(foo):i+1]
+  bar = stat(temp)
+  litmus = ( abs( bar[0][1] - comp[0][1] ) + abs( bar[1][1] + comp[1][1] )\
+           + abs( bar[2][1] - comp[2][1] ) + abs( bar[3][1] - comp[3][1] ) + abs( bar[4][1] - comp[4][1])) 
+  litmus = float(litmus) // 5.0
+  print ("last is: %i" % last)
+  print ("litmus is: %i" % litmus)
+  if last >= litmus:
+    last = litmus
+    print ("MATCH FOUND AT: %i" % i)
+    print ("%i: " % i,)
+    print (bar[0][1], comp[0][1]),
+    print (bar[1][1], comp[1][1]),
+    print (bar[2][1], comp[2][1]),
+    print (bar[3][1], comp[3][1]),
+    print (bar[4][1], comp[4][1])
+
+
+
+# Confedence intervals shows that
+# the most likley key length is
+# 12. The distribution produced
+# have finished converging with icelandic.
+
+k0 = foo[0:len(foo):12]
+k1 = foo[1:len(foo):12]
+k2 = foo[2:len(foo):12]
+k3 = foo[3:len(foo):12]
+k4 = foo[4:len(foo):12]
+k5 = foo[5:len(foo):12]
+k6 = foo[6:len(foo):12]
+k7 = foo[7:len(foo):12]
+k8 = foo[8:len(foo):12]
+k9 = foo[9:len(foo):12]
+k10 = foo[10:len(foo):12]
+k11 = foo[11:len(foo):12]
+
+
+# This section is to make sure
+# I've got my math right
+# And divided up the string properly
+"""
+print (k0)
+print (len(k0))
+print (k1)
+print (len(k1))
+print (k2)
+print (len(k2))
+print (k3)
+print (len(k3))
+print (k4)
+print (len(k4))
+print (k5)
+print (len(k5))
+print (k6)
+print (len(k6))
+print (k7)
+print (len(k7))
+print (k8)
+print (len(k8))
+print (k9)
+print (len(k9))
+print (k10)
+print (len(k10))
+print (k11)
+print (len(k11))
+
+
+x = len(k0) + len(k1) + len(k2) + len(k3) + len(k4) + len(k5) + \
+    len(k6) + len(k7) + len(k8) + len(k9) + len(k10) + len(k11)
+
+print (x)
+"""
+
+# Here we see the analysis of
+# each substring
+"""
+print ("k0 analisys")
+stat(k0, True)
+print ("k1 analisys ")
+stat(k1, True)
+print ("k2 analisys ")
+stat(k2, True)
+print ("k3 analisys ")
+stat(k3, True)
+print ("k4 analisys ")
+stat(k4, True)
+print ("k5 analisys ")
+stat(k5, True)
+print ("k6 analisys ")
+stat(k6, True)
+print ("k7 analisys ")
+stat(k7, True)
+print ("k8 analisys ")
+stat(k8, True)
+print ("k9 analisys ")
+stat(k9, True)
+print ("k10 analisys ")
+stat(k10, True)
+print ("k11 analisys ")
+stat(k11, True)
+"""
+
+
+# This loop decodes each part of the substring
+# and builds it back into a readable format
+# (without spaces...)
+retval = ''
+k0 = k0.translate(t1)
+k1 = k1.translate(t2)
+k2 = k2.translate(t3)
+k3 = k3.translate(t4)
+k4 = k4.translate(t5)
+k5 = k5.translate(t6)
+k6 = k6.translate(t7)
+k7 = k7.translate(t8)
+k8 = k8.translate(t9)
+k9 = k9.translate(t10)
+k10 = k10.translate(t11)
+k11 = k11.translate(t10)
+
+
+
+for i in range(len(t1)):
+  retval += k0[i]
+  retval += k1[i]
+  retval += k2[i]
+  retval += k3[i]
+  retval += k4[i]
+  retval += k5[i]
+  retval += k6[i]
+  retval += k7[i]
+  retval += k8[i]
+  retval += k9[i]
+  retval += k10[i]
+  retval += k11[i]
+
+
+retval += k0[-1]
+retval += k1[-1]
+retval += k2[-1]
+retval += k3[-1]
+
+
+print (retval)
+
+"""
+OUTPUT:
+ðæþagþfskflílajukðþádóíhmxþgodafðasþimeföðýepáyiösukiðinhæíðvbdyohóal
+úxóösiðgúbfvyúnfrvnúkaáæubxtjejetlpúmsænnavmæxöélaðnðmnavnoieíéirólöð
+éyþóírnvötæjhfðúæóaibíiéaþónkypíáéíæíöjapámfxyókuðluexaatsþhbyföooúxh
+bóitþöaótaxohjpóáóxamvóábaeöoakaðræfsgþdrþaevhaþúáðþvvtþiæryáúaouehlh
+nöpfffúlöæéiöóáfinbmyivaþnéæújjöémóhvjogesbémýnaaeeýfavyakybúéévpbbuö
+xóglöábaeöoakaðþgfnýaúaéhiéædlikniukptexaar
+"""

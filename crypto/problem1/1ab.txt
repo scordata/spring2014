@@ -1,0 +1,83 @@
+Adam Najman
+Cryptography
+Problem Set 1
+
+Question 1a
+
+Assuming I'm able to write out the contents of the 
+transmission I've intercepted at a text file, and
+assuming it is encrypted, I'd undertake the following
+steps to determine if it was encrypted using a 
+monoalphabetic cypher:
+  
+  1. Count the total number of characters in the
+     text file.
+  2. Build an index of how many of each type of
+     character was in the text file. For example,
+     count 15 'a's, 22 'b's, 3 'e's, etc.
+  3. Determine the relative frequency of each 
+     character. This can be done by dividing the 
+     occurrence of a character over the number of 
+     total occurrences of all characters and multiplying
+     the result by 100.
+  4. Compare the relative frequencies of this intercepted
+     transmission to the known "signatures" of written
+     languages, and look for a match. For example, 
+     English employs 26 letters in it's alphabet - if
+     the intercepted text has less than or equal to 26
+     characters at a similar relative frequency, there
+     is a good chance that we have a match. Icelandic,
+     for example, has 32 letters, and a different 
+     "signature", so we'd have to look for different,
+     but similar clues.
+
+This technique has not produced promising results for the
+cypher text in problem 5. Perhaps it is encoded using the
+Vigenere cypher.
+
+Question 1B
+
+Now for the undertaking for the harder case, in where we
+no nothing about the underlying data type. The search space
+for even unencrypted data is enormous. We have to consider 
+not only known file types and their internal signatures,
+but binary files for all possible architectures and possibly
+a proprietary file type known only to Alice and Bob.
+
+If we had a super computer, and some database containing
+internal file type signatures, it is possible to run our
+intercepted data though a pattern matching algorithm and
+develop some kind of confidence of whether or not it is
+of a known file type. If we had header information, this could
+greatly reduce our possible file types, but as mentioned in class, we
+have intercepted the file transmission sometime after it began.
+There are open source projects being developed right now to solve 
+this kind of undertaking. This doesn't help us with encryption, 
+however.
+
+If we examine the file on a binary level, that is to say, 
+zero's and one's, we can come to some conclusions. The odds
+that Alice would send Bob a several megabyte file containing
+only zero's or only one's seems unlikely. Likewise for a file
+containing alternating zero's and ones. But that's only the
+case if we assume Alice wasn't sending Bob some very large number.
+
+At this stage of inspection, we also have no idea if the file
+has been corrupted, or compressed, before or during transmission.
+So, assuming there has been no corruption, and the file has not been
+compressed, the only thing we will have to go on is patterns in the
+file itself.
+
+If the file has been encrypted using a block cypher, we might notice
+patterns ever 64, or 128, or 256 bits, for example. These patterns
+might be a side effect of the type of encryption Alice and Bob were
+using, and could help shed some light on its status. If it was 
+encrypted using a stream cypher, than it is going to look random.
+
+If all else fails, I maintain that finding Alice and/or Bob and
+coercing them into giving you more information on the intercepted
+file is a valid plan - it might not be efficient or implementable
+if you lack great wealth, political influence, or the proper 
+connections, but given ones social status, and the nature of the
+intercepted message (state or military secrets) this could be a 
+viable option.
