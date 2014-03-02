@@ -20,11 +20,44 @@ def nbestb(a,b):
   nlist = _qselect(z, len(a))
   return nlist
 
-def nbestc(a):
-  print a[-1]
+def nbestc(a, b):
+  if a == [] or b == []:
+    return None
   heapq.heapify(a)
-  print a[-1]
+  heapq.heapify(b)
+
+  print a
+  print b
+  added = 0
+  retVal = []
+
+  ac = 0
+  bc = 0
+
+  while added < len(a)-1:
+    pushVal = (a[ac], b[bc])
+    heapq.heappush(retVal, pushVal)
+    added += 1
+    print added
+    if comp2(a[ac],b[ac],a[ac+1],b[bc+1]) < 0:
+      bc += 1
+      print "up bc"
+    else:
+      ac += 1
+      print "up ac"
+  
+
+  print retVal
+  
+  
   return
+
+def comp2(x,y,p,q):
+  if ( (x + y) < (p + q) ) or \
+      ( (x + y) == (p + q)  and \
+      y < q):
+        return -1
+  return 0
 
 def comp(x,y,s):
   z = x[0] + x[1]
@@ -61,35 +94,57 @@ def _part(a):
     else:
       right.append(x)
   
-  return pivot, pivotSum, rest, left, right
+  return pivot, left, right
 
 def _qselect(a, b, c=[]):
   if a == []:
     return []
+
+  pivot, left, right = _part(a)
   
-  pivot, pivotSum, rest, left, right = _part(a)
-  left_size = len(left)
+  leftSize = len(left)
 
+  if leftSize  == b:
+    return left
+  elif leftSize > b:
+    return _qselect(left, b)
+  else:
+    return _qselect(right, b-leftSize)
+'''
   while(len(c) < b):
-    if left_size + 1 == b:
+   # print b
+   # print "left is:"
+   # print left
+   # print "a is:"
+   # print a
+   # print "right is:"
+   # print right
+    if len(a) == b:
+      return a
+
+    leftSize = len(left)
+
+    if leftSize + 1 == b:
       left.append(a[pivot])
-      c = left
-      return c
-    elif left_size >= b:
+      return left
+    elif leftSize >= b:
       a = left
-      pivot, pivotSum, rest, left, right = _part(left)
-      left_size = len(left)
+      pivot, left, right = _part(left)
     else:
-      pivot, pivotSum, rest, left, right = _part(a)
-      left_size = len(left)
-  return c
+      print "road less taken"
+      print len(right)
+      c = left
+      pivot, left, right = _part(right)
+      left.append(c)
+'''
 
-n = 10
-x = [random.randint(0,100) for _ in xrange(n)]
-y = [random.randint(0,100) for _ in xrange(n)]
 
-#x = [4,1,5,3]
-#y = [2,6,3,4]
+n = 5000
+#x = [random.randint(0,100) for _ in xrange(n)]
+#y = [random.randint(0,100) for _ in xrange(n)]
+
+x = [4,1,5,3]
+y = [2,6,3,4]
 
 z = [(a,b) for a in x for b in y]
 
@@ -113,8 +168,8 @@ print time.time()-t
 t = time.time()
 #z.sort()
 print "z.sort(): "
-print z
+#print z
 print time.time()-t
 
-print nbestc(z)
+print nbestc(x,y)
 
