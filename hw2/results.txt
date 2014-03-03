@@ -1,0 +1,19 @@
+0. Adam Najman
+
+1. Approx 15 hours coding/debugging
+          ~5 hours research
+          (It was fun, though)
+
+2. I would rate this assignment somewhere between
+  moderate and difficult, if only due to my limited
+  knowledge on the topics. A good refresher for Dijkstra's.
+
+3. I worked on this by myself, save for wikipedia/CLRS.
+
+4. I'm still missing something on quickselect,
+  but binary search, moving pointers, quicksort,
+  running times etc are all coming back to me by now.
+
+5. Most of the python I/O is a mystery to me. Can we 
+  cover some of it in class? The docs assume a body
+  of knowledge that I have yet to gain...

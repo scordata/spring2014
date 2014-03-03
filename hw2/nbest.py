@@ -2,6 +2,21 @@
 Adam Najman
 nbest.py
 Hw2
+
+
+Quicksort is O(n log n)
+
+I've got a terrible bug with my implementation
+of quickselect on this program. Try running this with
+a value of n > 25. Sometimes with the default values
+it will produce the right output, othertimes worng, 
+and othertimes none at all. It tends to hang on large
+output. I've tried to re-write it about a dozen times, 
+with and without recursion, to no avail.
+
+Since we're using a priority queue with Dijkstra's
+it's going to be O(logn)
+
 """
 import time
 import random
