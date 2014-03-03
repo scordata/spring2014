@@ -26,37 +26,52 @@ def nbestc(a, b):
   heapq.heapify(a)
   heapq.heapify(b)
 
-  print a
-  print b
-  added = 0
+  z = [(c,d) for c in a for d in b]
+
+  path, result =  build_path(z, z[0][0] + z[0][1])
+
+  print path
+  print result
+    
+# A form of Dijkstra's using a PQ  
+def build_path(graph, source):
   retVal = []
+  n = len(graph)/2
 
-  ac = 0
-  bc = 0
+  PQ = [(0,source)]
 
-  while added < len(a)-1:
-    pushVal = (a[ac], b[bc])
-    heapq.heappush(retVal, pushVal)
-    added += 1
-    print added
-    if comp2(a[ac],b[ac],a[ac+1],b[bc+1]) < 0:
-      bc += 1
-      print "up bc"
-    else:
-      ac += 1
-      print "up ac"
-  
+  #Set everything to infinity
+  distance = [float('inf') for x in range(n)]
+  #Except the source node (0, in our case)
+  distance[source] = 0
 
-  print retVal
-  
-  
-  return
+
+  #Iterate throught the queue...
+  while len(PQ) != 0:
+    (total, u) = heapq.heappop(PQ)
+    
+    for v in range(n):
+      #print distance[v]
+      #print graph[v]
+      if distance[v] > distance[u] \
+          + (graph[v][0] + graph[v][1]) :
+        #Set new distane value for every unvisited node    
+        distance[v] = distance[u] \
+        + (graph[v][0] + graph[v][1])
+        #Push visited nodes on queue
+        heapq.heappush(PQ, (distance[v],v))
+        #Grab their tuple value and append
+        retVal.append(graph[v])
+
+  return distance, retVal
 
 def comp2(x,y,p,q):
   if ( (x + y) < (p + q) ) or \
       ( (x + y) == (p + q)  and \
       y < q):
         return -1
+  if ( x + y ) > (p + q):
+    return 1
   return 0
 
 def comp(x,y,s):
@@ -139,7 +154,7 @@ def _qselect(a, b, c=[]):
 '''
 
 
-n = 5000
+n = 50
 #x = [random.randint(0,100) for _ in xrange(n)]
 #y = [random.randint(0,100) for _ in xrange(n)]
 
@@ -167,9 +182,9 @@ print nbestb(x,y)
 print time.time()-t
 t = time.time()
 #z.sort()
-print "z.sort(): "
+#print "z.sort(): "
 #print z
-print time.time()-t
+#print time.time()-t
 
 print nbestc(x,y)
-
+print time.time()-t
