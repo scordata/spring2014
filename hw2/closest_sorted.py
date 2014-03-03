@@ -2,9 +2,22 @@
 Adam Najman
 HomeWork#2
 closest_sorted.py
+
+Since the list provided is sorted, we get to cheat
+by using binary search. Temp is again set to positive 
+infinity, to ensure a match.
+
+Our bounds the limits of the array and we count
+down from k, so we have the right amount of matches.
+
+Binary search runs in O(log n), but we can shave some
+time off of that by counting down from k.
+
+Check the value, bisect the array, and divide accordingly.
+Append to the return value list.
+
 """
 
-import bisect
 
 def find(arr, target, k):
 
@@ -24,8 +37,6 @@ def find(arr, target, k):
       hi = mid-1
     elif arr[mid] < target:
       lo = mid+1
-    else: 
-      return mid
   return retVal
 
 
