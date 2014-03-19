@@ -1,0 +1,81 @@
+Kleinberg and Tardos
+Algorithm Design
+Sample Chapters:
+Dynamic Programming
+(Read that)
+
+Optimal Substructures - correctness
+Overlapping Subproblems - fast
+
+DP:
+  1. Define the subproblem
+  2. equation
+  3. reconstruct the solution
+
+0-1/unbounded knapsack:
+
+opt[w][i] = best value for a bag of w with items 1 thru i
+w = weight 
+i = items
+
+0/1:
+  opt[0][i] = 0
+  opt[w][0] = 0
+  opt[w][i] = max{opt[w-i][i-1] + Vi
+                  opt[w][i-1]}
+
+    |naieve | sparse
+---------------------
+time|O(W*n) |O(n*min(2^n, w)
+spce|O(W*n) |O(n*min(2^n, w)
+
+unbounded:
+  opt[0] = 0
+  opt[w] = max{opt[w-wi] + vi}
+           i->n
+    |naieve | sparse
+---------------------
+time|O(W*n) |O(w/gcd(wi) * n)
+spce|O(W)   |O(w/gcd(wi))
+
+
+0/n:
+opt[w][i][j] - best values of a bag of w with items
+                1 thru i with j copies left
+
+opt[0][i][j] = 0
+opt[w][0][j] = 0
+
+opt[w][i][j] = max{ opt[w-wi][i][j-1] + Vi if(j > 0, wi <= w)
+                    opt[w][i-1][c(i-1)]  if(i >= 1)
+                    }
+
+O(wnc)
+
+HOMEWORK IMPLEMENTATIONS:
+bounded knapsack:
+  opt[w][i] = max from j=0 to ci {
+                  opt[w - j*wi] + j * vi if w>= j *wi
+
+Longest common subsequence
+
+Longest increasing subsequence
+  opt[i] -> LIS length in prefix 1~i
+            which ends at a[i]
+  opt[n+1] -1 == max(i) opt[i]
+  (append infinity at the end
+  and neg inf at the begining)
+
+  opt[i] = max{from j= 0 to i-1 :
+              if a[j] < a[i]:
+              opt[j] + 1}
+  basecase:
+    opt[0] = 0
+
+  back[i] = j that give opt[i]
+    argmax from j = 0~1:
+      opt[j] + 1 (a[j] < a[i])
+
+  complexity:
+   time -  O(n^2)
+   space - O(n)

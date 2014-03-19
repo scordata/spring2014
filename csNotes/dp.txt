@@ -1,0 +1,53 @@
+Dynamic Programming:
+  Richard Bellman 1945 Rand
+
+  Dynamic programming
+            { 
+              1) Optimal substructure property
+              2) Sharing of common subproblems
+            }
+
+  Knapsack 0-1:
+      At most one copy of each item
+  Knapsack unbounded:
+      Infinite supply of items
+    
+  
+  Greedy algorithms:
+    Might solve knapsack 0-1 by starting with 
+    weight to value ratio.
+
+
+  DP:
+    1. Define the subproblem
+    2. Recursive equation
+    3. Assemble the final answer
+
+    Subproblem for knapsack 0-1:
+      1. opt[w][i] (i=number of remaining items)
+         original problem: opt[5][3]
+
+      2. opt[w][i] = {
+                      opt[w-1][i-1] + Value
+                      or
+                      opt[w][i-1]
+                     }
+        General equation (induction):
+              max{
+                  opt[w-(weight(i)][i-1] + value(i)
+                  opt[w][i-1]
+                  }
+        Gen eq (base case):
+              opt[0][i] = 0
+              opt[w][0] = 0
+        Proof by induction:
+          Base case - opt[0][0] = 0
+                      opt[0][i] = 0
+          Induction - 
+
+      Running time:
+        O(n * min(B, 2^n))
+
+      1. Memoized recursion ( top-down)
+      2. Brute force (Bottom up)
+         -Nested loops-
