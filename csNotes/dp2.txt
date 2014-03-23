@@ -55,9 +55,8 @@ O(wnc)
 HOMEWORK IMPLEMENTATIONS:
 bounded knapsack:
   opt[w][i] = max from j=0 to ci {
-                  opt[w - j*wi] + j * vi if w>= j *wi
+                  opt[w - j*wi] + (j * vi) (if w>= j *wi)
 
-Longest common subsequence
 
 Longest increasing subsequence
   opt[i] -> LIS length in prefix 1~i
@@ -79,3 +78,35 @@ Longest increasing subsequence
   complexity:
    time -  O(n^2)
    space - O(n)
+
+Longest common subsequence
+  DNA/RNA genetic alignment
+  edit distance:
+    1. deletion
+    2. insertion
+    3. replacement
+    4. swap
+
+  x = A D C B A E
+  y = B A E D B E
+
+  subproblem:
+    opt[i][j] -> LCS for x[1:i] and y[1:j]
+
+  final ans:
+    opt[n][m]
+  base case:
+    opt[0][j] = 0
+    opt[i][0] = 0
+
+  recursion/inductive case:
+    opt[i][j] = max{
+                    opt[i-1][j-1] + 1 (if x[i]==y[j]),
+                    opt[i-1][j],
+                    opt[i][j-1]
+                   }
+    
+[Waterman algorithm
+Viterbi algorithm]
+
+  
