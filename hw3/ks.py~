@@ -1,41 +1,46 @@
+from itertools import groupby
+ 
+maxwt = 3
+ 
+groupeditems = (
+            ("socks", 2, 4, 2),
+            ("book", 3, 5, 3),
+           )
+items = sum( ([(item, wt, val)]*n for item,
+            wt, val,n in groupeditems), [])
+ 
+print "items is: "
+print items
 
-def knapsack(items, maxweight):
-    """
-    Solve the knapsack problem by finding the most valuable
-    subsequence of `items` subject that weighs no more than
-    `maxweight`.
+def knapsack01_dp(items, limit):
+    table = [[0 for w in range(limit + 1)] 
+          for j in xrange(len(items) + 1)]
 
-    `items` is a sequence of pairs `(value, weight)`, where `value` is
-    a number and `weight` is a non-negative integer.
-
-    `maxweight` is a non-negative integer.
-
-    Return a pair whose first element is the sum of values in the most
-    valuable subsequence, and whose second element is the subsequence.
-    """
-
-    # Return the value of the most valuable subsequence of the first i
-    # elements in items whose weights sum to no more than j.
-    @memoized
-    def bestvalue(i, j):
-        if i == 0: return 0
-        value, weight = items[i - 1]
-        if weight > j:
-            return bestvalue(i - 1, j)
-        else:
-            return max(bestvalue(i - 1, j),
-                       bestvalue(i - 1, j - weight) + value)
-
-    j = maxweight
+    for j in xrange(1, len(items) + 1):
+        item, wt, val = items[j-1]
+        for w in xrange(1, limit + 1):
+            if wt > w:
+                table[j][w] = table[j-1][w]
+            else:
+                table[j][w] = max(table[j-1][w],
+                                  table[j-1][w-wt] + val)
+ 
     result = []
-    for i in xrange(len(items), 0, -1):
-        if bestvalue(i, j) != bestvalue(i - 1, j):
-            result.append(items[i - 1])
-            j -= items[i - 1][1]
-    result.reverse()
-    return bestvalue(len(items), maxweight), result
-
-bar = [[2,4,2],[3,5,3]]
-n = 2
-W = 3
-knapsack(bar, W)
+    w = limit
+    for j in range(len(items), 0, -1):
+        was_added = table[j][w] != table[j-1][w]
+ 
+        if was_added:
+            item, wt, val = items[j-1]
+            result.append(items[j-1])
+            w -= wt
+ 
+    return result
+ 
+ 
+bagged = knapsack01_dp(items, maxwt)
+print("Bagged the following %i items\n  " % len(bagged) +
+      '\n  '.join('%i off: %s' % (len(list(grp)), item[0])
+                  for item,grp in groupby(sorted(bagged))))
+print("for a total value of %i and a total weight of %i" % (
+    sum(item[2] for item in bagged), sum(item[1] for item in bagged)))

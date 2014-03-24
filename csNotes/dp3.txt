@@ -1,0 +1,32 @@
+String matching:
+  
+HWProblem 4:
+  LCS opt[i][j] -> LCS between A[1-i] and B[1-j]
+  TopDown:
+  LCSvirus opt[i][j][k] = max {
+                    if (A[i] == B[j] ):
+                      opt[i-1][j-1][inverseDelta()]
+                    if(a[i] !=b[j]):
+                      opt[i-1][j][k]
+                      opt[i][j-1][k]
+                    }
+
+  BottomUp:
+  opt[i][j][k] = max{
+            if(a[i+1] == b[j+1]):
+              opt[i+1][j+1][delta()] max= opt[i][j][k] + 1
+            else:
+              opt[i+1][j][k] max= opt[i][j][k]
+              opt[i][[j+1][k] max= opt[i][j][k]
+              }
+  KMP:
+  |T| = n
+  |P| = m 
+  n >> m
+
+            runtime:          preprocessing:
+naieve:     O(nm)               NA
+automaton:  O(n)                O(m^3  * |S|)
+KMP:        O(n)                O(m)
+
+
