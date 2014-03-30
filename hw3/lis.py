@@ -10,43 +10,38 @@ __filename__ = "lis.py"
 __homework_number__ = 3
 
 
-def lis(sequence):
-  
+def topdown(seq):
+  print "seq is: ", seq
+  if len(seq) <= 1:
+    return seq
+
+  mark = 0
+  sub = topdown(seq[1:])
+  print "sub is: ", sub
+  if seq[0] < sub[0]:
+    print "returning ", [seq[0]] + sub
+    return [seq[0]] + sub
+  for i in range (1, len(seq)):
+    if seq[i] > seq[i-1]:
+      mark = i
+      print "mark is: " , mark
+    else: 
+      break  
+  recon = seq[:(mark + 1)]
+  if len(recon) >= len(sub):
+    print "recon is: ", recon
+    return recon
+  print "returning sub: ", sub
+  return sub
+
+def bottomup(seq):
   retVal = []
-  for x in range(len(sequence)):
-    print "examining: ", sequence[x]
-    #the following list comprehension checks for the
-    #maximum length of the current subsequence
-    #against the previous one
-    #it's sort of abusing the boolean or operator,
-    #because in python or returns the first non-false
-    #value it finds - ie X or Y returns X if X is true
-    # and Y if X is false and Y is true.
-    # we append the current sequence value afterwards
-    # to build out the return value
-    temp = max([retVal[y] for y in xrange(0,x) \
-                if retVal[y][-1] < sequence[x]] or [[]],\
-                key=len)  + [sequence[x]]
-    """
-    retVal.append([[]])
-    for d in range(x):
-      print "loop number: ", d
-      bar = [sequence[x]]
-      print "bar is: ", bar
-      if retVal[d] < sequence[x] or [[]]:
-        bar = max([retVal[d]], key=len) + [sequence[x]]
-        print "*bar is: ", bar
-        #retVal.append(bar)
-      retVal.append(bar)
-    """
-    print "temp is: ", temp
-    print "retVal is: ", retVal
-
-    #append the current subsequence to the list
-    retVal.append(temp)
-
-  #grab the largest subsequence by length
-  retVal = max(retVal, key=len)
+  for i in range(0, len(seq)):
+    for j in range(i, -1, -1):
+      print seq[j]
+     # if seq[j] > seq[i]:
+     #   print seq[j], ">" , seq[i]
+     #   retVal.append(seq[j])
   return retVal
 
 
@@ -61,9 +56,22 @@ for line in f:
 
 print "ops is:", ops
 
+o.write("Top Down Solution: \n")
+print "Top Down Solution"
+
 for elem in ops:
   print list(elem[0])
-  LIS = lis(list(elem[0]))
+  LIS = topdown(list(elem[0]))
+  print "LIS is: ", LIS
+  LIS = ''.join(LIS)
+  o.write("%s\n" % LIS)
+
+o.write("Bottom Up Solution: \n")
+print "Bottom Up Solution"
+
+for elem in ops:
+  print list(elem[0])
+  LIS = bottomup(list(elem[0]))
   print "LIS is: ", LIS
   LIS = ''.join(LIS)
   o.write("%s\n" % LIS)
