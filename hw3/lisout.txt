@@ -1,0 +1,8 @@
+Top Down Solution: 
+abcg
+z
+abc
+Bottom Up Solution: 
+abc
+z
+ab

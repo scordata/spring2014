@@ -1,0 +1,25 @@
+Adam Najman
+Results.txt
+HomeWork #3
+
+0) Adam Najman
+1) ~30 hours
+2) I would rate this as very difficult.
+  Not the problems, per se, but the concept of DP.
+  It took me ~30 hours of research and coding,
+  but I'm finally able to grasp the concept. 
+  It was worth it. This is a powerful technique.
+3) I did all the coding by myself, with the help of
+ various blog posts, CLRS, some other algorithm books,
+ DP lectures on youtube etc. 
+4) I would say that right now maybe 60% understood.
+  If I do a few more problems this should start to 
+  approach 100%. 
+5) This assignment was surprisingly non-trivial,
+  hence its late delivery. The problems are deceptive 
+  - they are easy to describe, but not easy at all to 
+  program a solution.
+  Attempting to solve these in Java/C++ or a language
+  that I've been more familiar in might have cut down
+  on development time, as the debugging process is 
+  ingrained. I'm learning to love Pdb.
