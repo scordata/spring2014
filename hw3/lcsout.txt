@@ -1,0 +1,9 @@
+
+bcba
+NO LCS
+heglo
+aaaaaaaaaaa
+bdab
+NO LCS
+y
+aaaaaaaaaaa
