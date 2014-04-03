@@ -1,0 +1,42 @@
+
+----------------------
+deep copy:
+  import copy
+  b = copy.deepcopy(a)
+
+----------------------
+
+
+LICS ( longest increasing common substring):
+  1. opt[i][j] - LICS b/w a[1-i] and b[1-i] that
+                ends at a[i] and b[j] (a[i]==b[j])
+  
+    opt[i][j]  (a[i] == b[j])
+
+recursive:
+  opt[i][j] = max(  opt[i`][j`] + 1 )
+            i`<i
+           ** j`<j**
+            a[i`]<a[i]
+
+  m[i`,j] = last match of a[i`] on b[1-j]
+
+  opt[i][j] = -inf if a[i] != b[j]
+
+  final answer: max(opt[i][j])
+                i,j
+
+  space: O(nm)
+  time:  O(n^4)
+
+  2. opt[i][j][k] = LICS b/w a[1-i] and b[1-j]
+                    with the last char being a[k]
+
+recursive:
+  opt[i][j][k] = max 
+    if a[i] == b[j]:  opt[i][j][i] = max(opt[i-1][j][k`]
+                                 k`<i   opt[i][j-1][k`]
+                              a[k`]<a[i] opt[i-1][j-1][k`])
+                                          + 1
+
+  
