@@ -1,0 +1,42 @@
+Quiz 2 : wed april 23
+HW 4 due tue april 22 (dp again)
+
+Veterbi:
+  Finds shortest path on a sorted DAG
+  1. Topological sort on DAG
+  2. Compute weight sum on each edge
+  3. Wont work with cycles
+  4. Can compute shorest, longest, number of paths
+
+Dijkstra:
+  1. Can work with cycles
+  2. Can work with undirected graphs
+  3. Only solves shortest paths
+  4. Can't work with negative numbers
+
+
+LCS with subsequence:
+  A - string 1
+  B - string 2
+  Q - query subsequence
+  opt[i][j][k] = LCS w A[1-i] and B[1-i] which contains Q[1-k]
+                  as a subsequence
+
+  final ans:
+    opt[n][m][l = |Q|]
+
+  opt[i][j][k] updates to:
+    1 + opt[i+1][j+1][k] if A[i+1] == B[j+1] != Q[k+1]
+    1 + opt[i+1][j+1][k+1] if A[i+1] == B[j+1] == Q[k+1]
+    0 + opt[i+1][j][k] if no match
+    0 + opt[i][j+1][k] if no match
+    base case:
+      opt[0][j][k] = 0
+      opt[i][0][k] = 0
+
+  for loop solution:
+  for 0-i:
+    for 0-j:
+      for 0-k:
+        check and eval
+
