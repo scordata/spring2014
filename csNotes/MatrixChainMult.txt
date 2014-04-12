@@ -1,0 +1,19 @@
+Matrix Chain Multiplication:
+
+  a1 * a2 * ... * an
+
+  (3,7) * (5,7) * (5,1) * (1,10)
+
+
+  (a,b) * (b, c) = (a,c)
+    c{i,j} = sum from k : a[ik] * b[jk]
+
+substructure:
+  opt[i][j] = mix # of operations for:
+              ai * ai+1 * ... * aj
+
+  base:
+  opt[i][i] = 0
+  recur:
+  opt[i][j] =  from k = i to j-1:
+            min(opt[i][k], opt[k+1][j]) + ai*ak*aj

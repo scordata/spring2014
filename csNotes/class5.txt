@@ -40,3 +40,11 @@ LCS with subsequence:
       for 0-k:
         check and eval
 
+Verbiti algo:
+  1. Topological sort
+  2. Visit each vertex c in sorted oder and do updates:
+    * for each incoming edge(u,v) in E
+    * use d(u) to update d(v): d(v) max= d(u) @ w(u,v)
+    * key observation: d(u) is fixed to optimal at this time
+
+  && time comp: O(V+E)
