@@ -1,8 +1,0 @@
-Graph #0
-bottom up: 3
-topdown: 3
-Graph #1
-CYCLIC
-Graph #2
-bottom up: 5
-topdown: 5

@@ -1,3 +1,16 @@
+__author__ = "Adam Najman"
+__sources__ == "CLRS"
+
+"""
+Adam Najman
+Python implementation of 
+Matrix-chain Multiplication
+Adapted from CLRS
+
+"""
+
+
+
 import re
 import sys
 
@@ -24,7 +37,7 @@ def lookup(m, p, i, j):
   elif i == j:
     m[i][j] = 0
   else:
-    for k in xrange(1, j-1):
+    for k in xrange(i, j):
       q = ( lookup(m, p, i, k) + \
             lookup(m, p, k + 1, j) + \
             ( p[i-1]*p[k]*p[j] ) )
