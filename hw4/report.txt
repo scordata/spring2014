@@ -1,0 +1,18 @@
+Report.txt
+
+0) Adam Najman
+
+1) I spent about 15-20 hours on this assignment
+
+2) This was a difficult assignment
+
+3) I worked alone, but I did ask for help from
+  Lemao during his office hours re: Viterbi
+
+4) I would say I understand most of it, although
+  DP is still hard for me to do. Maybe 60-75%
+  The hard part is comming up with a recurrance.
+
+5) I'd like to see more concepts in the course 
+  as opposed to the same ones getting progressivly
+  more difficult.

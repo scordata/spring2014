@@ -124,6 +124,8 @@ for group in lines:
   t = time()
   match =  bottomup(group[0], group[1])
   o.write("\n")
+  for elem in opt:
+    print elem
   if not match:
     print "NO LCS"
     o.write("NO LCS")
