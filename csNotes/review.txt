@@ -1,0 +1,21 @@
+REVIEW:
+  
+  Dijkstra's Algorithm for the single-source shortest path
+  problem for a graph with non-negative edges.
+
+  Problem #:
+    Single-source shortest path problem that may have negative edges.
+  Analysis #:
+    1) Consider shortest path P from s to t in #:
+        0)   s->t1->t2->...->tk-1->tk is P where tk = t
+        I)   P is acyclic
+        II)  |E| <= |V| - 1 (same property as graph with non-neg edges)
+        III) s->t1->...->ti in P is the shortest path from s to ti in the graph
+            that has at most i edges (1 <= i <= k)
+        I, II, III constraint:
+          Graph has no negative cycle. 
+    2) If G has a negative cycle, out shortest path from s to t would be -inf
+        with +inf edges if s can reach a NC and this NC can reach t.
+
+    Bellman Ford Algorithm:
+      `

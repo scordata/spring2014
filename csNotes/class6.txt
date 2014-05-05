@@ -1,0 +1,43 @@
+Graph algorithms:
+  
+    Shortest paths:
+      Viterbi - DAG   O(V+E)                
+
+
+
+                                      With binary Heap:       With Array:
+      Dijkstra - Non-negative edges // O(VlogV + ElogV)         O(V^2+E)
+        (look at fibbonacci heap)
+        while pq isn't empty: //       O(V)
+          v = extract_best(pq)//       O(logV)                  O(V)
+          for all v to u edges: 
+            update(v->u) // d(u) min= d(v) + c(v, u)
+            decrease_key(pq, u) //    O(E*logV)                 O(1)
+
+      IF E = O(V^2):
+        V^2logV > V^2
+      IF E = O(V):
+        VlogV < V^2
+      IF E = (VlogV):
+        Vlog^2V < V^2+vlogV
+      IF E = O(V^2/logV):
+        O((V+E)logV) = O(V^2+E)
+
+
+      Bellman - Ford
+
+Min Spanning Tree:
+ Prim (Like Dijkstra)
+  pq = {s->u|uC-neighbor(s)}
+  while pq is not empty:
+    (v, u)<-extract_best(pq)
+    remove v`->u edges from pq for v` in s
+    add all u-> v edges to pq for v`C- v-s
+ (other implementation)
+  pq = {s:0}
+  while pq isn't empty:
+    u = extract(pq)
+    for u->v:
+      update d(V) min= c(u,v)
+      decrease_key(pq, v)
+  Kruskal

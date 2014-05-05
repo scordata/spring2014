@@ -1,0 +1,17 @@
+Coin problem:
+  x = 6
+  v1, v2, v3 = 1, 3, 4
+  greedey = 4, 1, 1 = 3coins
+  real = 3, 3 = 2coins
+
+  opt[x] = min(opt[x-vi]+1)
+          i=1 to |v|
+
+  for weight:
+  opt[x] = min(opt[x-vi] + wi)
+          i=1 to |v|
+
+  for limited coins:
+  opt[x][i] = min(opt[x-j*vi][i-1] + j*wi)
+              j=0 to |v|          (x >= j*vi)
+  O(W*sum(ci))
