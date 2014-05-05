@@ -17,5 +17,68 @@ REVIEW:
     2) If G has a negative cycle, out shortest path from s to t would be -inf
         with +inf edges if s can reach a NC and this NC can reach t.
 
-    Bellman Ford Algorithm:
-      `
+  Relaxation:
+    Updating path cost from s to t based on shortest path from s to t.
+
+    Bellman-Ford-Moore Algorithm:
+    Richard Bellman 1958
+    Lester Ford Jr. 1956
+    Edward F Moore  1957
+    Intuition:
+      1. Due to property I and II, we can conclude that:
+
+        Do relaxation for all edges in G for one turn. Then
+        find P within n-1 turns. (n = |V|)
+
+        Property III shows we can use dynamic programming for merging states.
+
+        II} Check if G has a negative cycle.
+
+      Pseudo Code (3 steps):
+        1. Initialization
+        2. Relaxation of all edges for n-1 turns
+        3. Do another turn to check if G has a negative cycle.
+
+      Time: O(|E|*|V|)
+      Space: O(|V|)
+
+      Can be improved with a queue.
+      Intuition:
+        1. Relaxation on all edges wastes too much time.
+        2. It should happen on t1 first, then t2, then t3...
+
+      Shortest Path Faster Algorithm(SPFA):
+      Fanding Duan 1994
+      Pseudo Code (3 steps):
+        
+        func spfa(vertices, edges, source):
+          //1. Initialization
+          for each vertex V in vertices:
+            if V is source then weight[v] := 0
+            else weight[V] := inf
+          //2. Queue initialization
+          Q := emptyQ.push(s)
+          count = size(edges) * [size(vertices) - 1]
+          //3. Relaxation by queue
+          while Q not empty:
+            u := Q.pop()
+            for each edge(u,v) with weight w:
+               count := count -1
+               if count < 0:
+                  raise "fail : negative cycle detected"
+               if weight[u] + w < weight[V]:
+                  weight[V] = weight[u] + w
+                  if v is not in Q:
+                     Q.push(V)
+          return weight[]
+            
+       end func
+
+     Notes: V would be pushed if the following holds:
+      i) weight[V] is updated at this time.
+      ii) V is not in Q
+
+    TIME: O(k*|E|)
+          k<=2 on sparse graphs
+          k = |V| worst case (dense)
+    SPACE: O(|V|)
