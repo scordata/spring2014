@@ -1,0 +1,6 @@
+Network Flow:
+  
+  Augmenting path:
+    Improving preexisting path.
+  Residual graph:
+    looking for maximal flow.

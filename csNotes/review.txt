@@ -56,6 +56,7 @@ REVIEW:
           for each vertex V in vertices:
             if V is source then weight[v] := 0
             else weight[V] := inf
+            predecessor[V] = null
           //2. Queue initialization
           Q := emptyQ.push(s)
           count = size(edges) * [size(vertices) - 1]
@@ -68,6 +69,7 @@ REVIEW:
                   raise "fail : negative cycle detected"
                if weight[u] + w < weight[V]:
                   weight[V] = weight[u] + w
+                  predecessor[V] := u
                   if v is not in Q:
                      Q.push(V)
           return weight[]
@@ -82,3 +84,4 @@ REVIEW:
           k<=2 on sparse graphs
           k = |V| worst case (dense)
     SPACE: O(|V|)
+    Note: SPFA performs very well on sparse graphs.
