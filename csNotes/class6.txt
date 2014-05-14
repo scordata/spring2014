@@ -3,7 +3,7 @@ Graph algorithms:
     Shortest paths:
       Viterbi - DAG   O(V+E)                
 
-
+Dijkstra inherists prior path costs
 
                                       With binary Heap:       With Array:
       Dijkstra - Non-negative edges // O(VlogV + ElogV)         O(V^2+E)
@@ -13,6 +13,10 @@ Graph algorithms:
           for all v to u edges: 
             update(v->u) // d(u) min= d(v) + c(v, u)
             decrease_key(pq, u) //    O(E*logV)                 O(1)
+
+
+      Array faster with dense graphs
+      Heap faster with sparce graph
 
       IF E = O(V^2):
         V^2logV > V^2
@@ -28,6 +32,10 @@ Graph algorithms:
 
 Min Spanning Tree:
  Prim (Like Dijkstra)
+ array: O(V^2 +E)
+ heap: O((E+V)logV) = O(ElogV + VlogV)
+  prim only considers next node costs
+
   pq = {s->u|uC-neighbor(s)}
   while pq is not empty:
     (v, u)<-extract_best(pq)
@@ -40,4 +48,5 @@ Min Spanning Tree:
     for u->v:
       update d(V) min= c(u,v)
       decrease_key(pq, v)
-  Kruskal
+Kruskal
+ = O(ElogV + V^2)

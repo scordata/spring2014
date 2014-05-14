@@ -1,0 +1,9 @@
+kruskal:
+  always pick the smallest edge to make acyclic 
+  spanning tree
+
+prim:
+  pick smallest endge on frontier
+
+dijkstra:
+  visit each node and pick smallest edge from source
