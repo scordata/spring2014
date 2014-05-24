@@ -1,6 +1,23 @@
+__author__ = "Adam Najman"
+
+"""
+Adam Najman
+CSCI HW 5
+Dijkstra's Algorithim using a binary heap!
+
+Running time is O(VlogV + ElogE)
+
+Please see input.txt for graphs.
+The last graph has 12 nodes and 13 edges.
+The last graph takes twice as long in the binary heap
+implemenation compared to the array versions.
+
+"""
+
 import re
 import heapq
 from collections import defaultdict
+from time import time
 
 def dijkheap(v, ec):
   emat, cmat = [None for x in xrange(v)], \
@@ -60,9 +77,9 @@ while v is not -1:
     else:
       ec[foo[qq]] = [(foo[qq+1], foo[qq+2])]
     qq += 3
-
+  #t = time()
   hc = dijkheap(v, ec)
   print  hc
-
+  #print t - time()
 
 

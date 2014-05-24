@@ -1,5 +1,25 @@
+__author__ = "Adam Najman"
+
+"""
+Adam Najman
+CSCI HW 5
+Dijkstra's Algorithm using an array!
+
+Running time is O(V^2 + E)
+
+Please see input.txt for graphs
+The second to last graph has 12 nodes and 144 edges.
+This takes twice as long in the array implementation
+compared to the binary heap version.
+
+"""
+
+
+
+
 import re
 from collections import defaultdict
+from time import time
 
 def dijkarray(v, ec):
   emat, cmat = [None for x in xrange(v)], \
@@ -61,8 +81,10 @@ while v is not -1:
       ec[foo[qq]] = [(foo[qq+1], foo[qq+2])]
     qq += 3
 
+  #t = time()
   ac = dijkarray(v, ec)
   print  ac
+  #print t - time()
 
 
 
