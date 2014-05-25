@@ -9,6 +9,10 @@ Running time is O(ElogV + VlogV)
 
 Please see input.txt for graphs.
 
+This prints the very dense graph twice
+as fast as Kruskal's
+
+
 """
 
 import re
